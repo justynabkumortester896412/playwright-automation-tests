@@ -10,6 +10,7 @@ const productsPage = {
     item:'div[class="inventory_item"]',
     firstItem: 'div[class="inventory_item"] >> nth=0',
     sixthItem: 'div[class="inventory_item"] >> nth=5',
+    itemName: 'div[class="inventory_item_name"]',
     linkOfItem: 'a',
     price: 'div[class = "inventory_item_price"]',
     firstPrice: 'div[class="inventory_item_price"] >> nth=0',

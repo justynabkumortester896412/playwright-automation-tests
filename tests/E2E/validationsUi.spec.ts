@@ -3,11 +3,10 @@ import test from '../testPage';
 
 const chance = require('chance').Chance();
 
-test('Validation 1.1', async ({ testPage }) => {
-const firstName = 'Adam';
-const lastName = 'Kowalski';
-const postalCode = '55555';
-const expectedTotalCount = '123.07';
+test('TEST-25 Validation 1.1', async ({ testPage }) => {
+const firstName = chance.name().split(" ")[0];
+const lastName = chance.name().split(" ")[1];
+const postalCode = chance.natural({ min: 1, max: 88888 });
 const orderCompleteInformation = 'Thank you for your order!';
 
   await test.step('Log in as a `standard user`', async () => {
@@ -17,12 +16,7 @@ const orderCompleteInformation = 'Thank you for your order!';
     await testPage.productsPageActions.assertProductsPageIsDisplayed();
   });
   await test.step('Add all item to the cart', async () => {
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsBackpack);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsBikeLight);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsBoltTShirt);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsFleeceJacket);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsOnesie);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.TestAllTheThingsTShirtRed);
+    await testPage.productsPageActions.addItemsToShoppingCart();
     await testPage.productsPageActions.assertAllItemsAreAddedToShoppingCart();
   });
   await test.step('Go to the cart', async () => {
@@ -34,16 +28,12 @@ const orderCompleteInformation = 'Thank you for your order!';
   });
   await test.step('Validate in the Checkout Overview that: It only contains the items that you want to purchase', async () => {
     await testPage.shoppingCartActions.navigateTo.checkoutOverviewPage();
-    await testPage.checkoutPageActions.fillInPageOfYourInformation(firstName,lastName,postalCode);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsBackpack);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsBikeLight);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsFleeceJacket);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsOnesie);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.TestAllTheThingsTShirtRed);
+    await testPage.checkoutPageActions.fillInPageOfYourInformation(firstName,lastName,postalCode.toString());
+    await testPage.checkoutPageActions.assertCheckoutListContainItems();
     await testPage.checkoutPageActions.assertCheckoutListNotContainItem(ProductName.SauceLabsBoltTShirt);
   });
   await test.step('Validate in the Checkout Overview that: The Item Total is right', async () => {
-    await testPage.checkoutPageActions.assertTotalLabelIsProperly(expectedTotalCount);
+    await testPage.checkoutPageActions.assertTotalLabelIsProperly();
   });
   await test.step('Finish the purchase', async () => {
     await testPage.checkoutPageActions.clickOnTheFinishButton();
@@ -86,18 +76,14 @@ test('Validation 1.3', async ({ testPage }) => {
   await test.step('Sort products by name and validate that the sorting is right', async () => {
     await testPage.productsPageActions.sortProduct.expandSortOptions();
     await testPage.productsPageActions.sortProduct.byName(Sorting.Asc);
-    await testPage.productsPageActions.assertProductsAreSorted
-    .byName(ProductName.SauceLabsBackpack,ProductName.TestAllTheThingsTShirtRed);
+    await testPage.productsPageActions.assertProductsAreSortedByName(Sorting.Asc);
     await testPage.productsPageActions.sortProduct.expandSortOptions();
     await testPage.productsPageActions.sortProduct.byName(Sorting.Dsc);
-    await testPage.productsPageActions.assertProductsAreSorted
-    .byName(ProductName.TestAllTheThingsTShirtRed,ProductName.SauceLabsBackpack)
+    await testPage.productsPageActions.assertProductsAreSortedByName(Sorting.Dsc)
   });
 });
 
-test('Validation 1.4', async ({ testPage }) => {
-  const hightestPrice = '49.99';
-  const lowestPrice = '7.99';
+test('TEST-51 Validation 1.4', async ({ testPage }) => {
   
   await test.step('Log in as a `standard user`', async () => {
     await testPage.loginPageActions.navigateTo.loginPage();
@@ -108,10 +94,10 @@ test('Validation 1.4', async ({ testPage }) => {
   await test.step('Sort products by price and validate that the sorting is right', async () => {
     await testPage.productsPageActions.sortProduct.expandSortOptions();
     await testPage.productsPageActions.sortProduct.byPrice(Sorting.Asc);
-    await testPage.productsPageActions.assertProductsAreSorted.byPrice(lowestPrice,hightestPrice);
+    await testPage.productsPageActions.assertProductsAreSortedByPrice(Sorting.Asc);
     await testPage.productsPageActions.sortProduct.expandSortOptions();
     await testPage.productsPageActions.sortProduct.byPrice(Sorting.Dsc);
-    await testPage.productsPageActions.assertProductsAreSorted.byPrice(hightestPrice,lowestPrice);
+    await testPage.productsPageActions.assertProductsAreSortedByPrice(Sorting.Dsc);
   });
 });
 
@@ -128,10 +114,9 @@ test('Validation 1.5', async ({ testPage }) => {
 });
 
 test('Validation 1.6', async ({ testPage }) => {
-  const firstName = 'Adam';
-  const lastName = 'Kowalski';
-  const postalCode = '55555';
-  const expectedTotalCount = '123.07';
+  const firstName = chance.name().split(" ")[0];
+  const lastName = chance.name().split(" ")[1];
+  const postalCode = chance.natural({ min: 1, max: 88888 });
   const orderCompleteInformation = 'Thank you for your order!';
 
   await test.step('Log in as a `performance_glitch_user`', async () => {
@@ -141,12 +126,7 @@ test('Validation 1.6', async ({ testPage }) => {
     await testPage.productsPageActions.assertProductsPageIsDisplayed();
   });
   await test.step('Add all item to the cart', async () => {
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsBackpack);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsBikeLight);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsBoltTShirt);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsFleeceJacket);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.SauceLabsOnesie);
-    await testPage.productsPageActions.addItemToShoppingCart(ProductName.TestAllTheThingsTShirtRed);
+    await testPage.productsPageActions.addItemsToShoppingCart();
     await testPage.productsPageActions.assertAllItemsAreAddedToShoppingCart();
   });
   await test.step('Go to the cart', async () => {
@@ -159,15 +139,11 @@ test('Validation 1.6', async ({ testPage }) => {
   await test.step('Validate in the Checkout Overview that: It only contains the items that you want to purchase', async () => {
     await testPage.shoppingCartActions.navigateTo.checkoutOverviewPage();
     await testPage.checkoutPageActions.fillInPageOfYourInformation(firstName,lastName,postalCode);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsBackpack);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsBikeLight);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsFleeceJacket);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.SauceLabsOnesie);
-    await testPage.checkoutPageActions.assertCheckoutListContainItem(ProductName.TestAllTheThingsTShirtRed);
+    await testPage.checkoutPageActions.assertCheckoutListContainItems();
     await testPage.checkoutPageActions.assertCheckoutListNotContainItem(ProductName.SauceLabsBoltTShirt);
   });
   await test.step('Validate in the Checkout Overview that: The Item Total is right', async () => {
-    await testPage.checkoutPageActions.assertTotalLabelIsProperly(expectedTotalCount);
+    await testPage.checkoutPageActions.assertTotalLabelIsProperly();
   });
   await test.step('Finish the purchase', async () => {
     await testPage.checkoutPageActions.clickOnTheFinishButton();

@@ -1,0 +1,20 @@
+const productsPage = {
+    menuButton: 'button[id="react-burger-menu-btn"]',
+    sortSelect: 'select[data-test="product_sort_container"]',
+    sortByNameAsc: 'az',
+    sortByNameDsc: 'za',
+    sortByPriceAsc: 'lohi',
+    sortByPriceDsc: 'hilo',
+    shoppingCart: 'a[class="shopping_cart_link"]',
+    pageContent: 'div[class="inventory_list"]', 
+    item:'div[class="inventory_item"]',
+    firstItem: 'div[class="inventory_item"] >> nth=0',
+    sixthItem: 'div[class="inventory_item"] >> nth=5',
+    linkOfItem: 'a',
+    price: 'div[class = "inventory_item_price"]',
+    firstPrice: 'div[class="inventory_item_price"] >> nth=0',
+    sixthPrice: 'div[class="inventory_item_price"] >> nth=5',
+    addToCartButton: 'button[id^="add-to-cart"]',
+    removeButton: 'button[id^ = "remove"]',
+};
+export default productsPage;

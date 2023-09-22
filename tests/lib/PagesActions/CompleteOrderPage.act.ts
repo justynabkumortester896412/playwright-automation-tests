@@ -8,7 +8,8 @@ export default class CompleteOrderPageActions {
         this.page = page;
     }
     
-    async assertWebsiteConfirmsOrder(orderInformation: string): Promise<void> {
-            await expect(this.page.locator(completeOrderPage.completeOrderInformation, { hasText: `${orderInformation}`})).toBeVisible();
+    async assertItemsAreOrderedSuccessfully(orderInformation: string): Promise<void> {
+            await expect(this.page.locator(completeOrderPage.completeOrderInformation, { hasText: `${orderInformation}`}), 
+            `Cannot found expected information on the confirm order page: "${orderInformation}"`).toBeVisible();
         }
 }

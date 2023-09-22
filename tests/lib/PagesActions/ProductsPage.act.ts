@@ -55,7 +55,7 @@ export default class ProductsPageActions {
         }
 
         let sortDirection = this.getSortDirection(itemsNames);
-        expect(direction).toEqual(sortDirection);
+        expect(direction, `Products are not sorted by: "${direction}"`).toEqual(sortDirection);
     }
 
     async assertProductsAreSortedByPrice(direction: string): Promise<void>{
@@ -74,7 +74,7 @@ export default class ProductsPageActions {
             prices.sort((a, b) => b - a)
         };
         
-        expect(itemsPrice).toEqual(prices);
+        expect(itemsPrice, `Products are not sorted by: "${direction}"`).toEqual(prices);
     }
 
     private getSortDirection(arr: Array<string>): Sorting | null {
@@ -102,7 +102,7 @@ export default class ProductsPageActions {
         const tab = this.page.locator(productsPage.item);
 
         for (let i = 0; i < tab.all.length; i++) {
-                await expect(tab.all[i].locator(productsPage.removeButton), `There is item no added to shopping cart`).toBeVisible();
+                await expect(tab.all[i].locator(productsPage.removeButton), `There is an item not added to shopping cart`).toBeVisible();
         }
     }
 }

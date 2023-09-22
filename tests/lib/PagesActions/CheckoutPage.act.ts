@@ -9,7 +9,8 @@ export default class CheckoutPageActions {
     }
     
     async assertCheckoutOverviewPageIsDisplayed(): Promise<void> {
-            await expect(this.page.locator(checkoutPage.checkoutYourInformationContent), 'The checkoutOverviewPage is not displayed').toBeVisible();
+            await expect(this.page.locator(checkoutPage.checkoutYourInformationContent), 
+            'The checkout overview page is not displayed').toBeVisible();
         }
 
     async fillInPageOfYourInformation(firstName: string, lastName: string, postalCode: string): Promise<void> {
@@ -25,17 +26,19 @@ export default class CheckoutPageActions {
         await this.page.locator(checkoutPage.continueButton).click();
     }
     async assertCheckoutListContainItem(itemName: string): Promise<void> {
-        await expect(this.page.locator(checkoutPage.itemName, { hasText: itemName })).toBeVisible();
+        await expect(this.page.locator(checkoutPage.itemName, { hasText: itemName }), 
+        `The checkout list does not contain item: "${itemName}"`).toBeVisible();
     }
 
     async assertCheckoutListContainItems(): Promise<void> {
         for (const itemLocator of await this.page.locator(checkoutPage.itemName).all())
-        await expect(itemLocator).toBeVisible();
+        await expect(itemLocator, 'The checkout list does not contain items').toBeVisible();
     }
 
     async assertCheckoutListNotContainItem(itemName: string): Promise<void> {
-        await expect(this.page.locator(checkoutPage.itemName, { hasText: itemName })).toBeHidden();
+        await expect(this.page.locator(checkoutPage.itemName, { hasText: itemName }), `The checkout list contains item: "${itemName}"`).toBeHidden();
     }
+
     async assertTotalLabelIsProperly(): Promise<void> {
         let itemsPrice: Array<number> = [];
         let sum: number = 0;
@@ -56,7 +59,7 @@ export default class CheckoutPageActions {
         }
 
         const pricesSum = sum+tax;
-        expect(Number(pricesSum.toFixed(2))).toEqual(total);
+        expect(Number(pricesSum.toFixed(2)), 'The Total Price is different than expected').toEqual(total);
     }
         
     async clickOnTheFinishButton(): Promise<void> {

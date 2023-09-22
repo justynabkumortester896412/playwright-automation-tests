@@ -18,15 +18,27 @@ export default class ShoppingCartActions {
     }
     
     async assertShoppingCartIsDisplayed(): Promise<void> {
-         await expect(this.page.locator(shoppingCartPage.shoppingCartContent), 'The Shopping cart is not displayed').toBeVisible();
+         await expect(this.page.locator(shoppingCartPage.shoppingCartContent), 
+         'The Shopping cart is not displayed').toBeVisible();
     }
 
     async assertItemIsAddedToTheCart(itemName: string): Promise<void> {
-        await expect(this.page.locator(shoppingCartPage.item, { hasText: itemName }), 'The product is not added to the shopping cart').toBeVisible();
+        await expect(this.page.locator(shoppingCartPage.item, { hasText: itemName }), 
+        'The product is not added to the shopping cart').toBeVisible();
     }
 
-    async removeItemFromTheCart(itemName: string): Promise<void> {//podać pozycję na liście
-        await this.page.locator(shoppingCartPage.item, { hasText: itemName}).locator(shoppingCartPage.removeButton).click();
-        await expect(this.page.locator(shoppingCartPage.item, { hasText: itemName }), 'The item is still in the Shopping cart').toBeHidden();
+    async removeItemFromTheCart(): Promise<void> {
+        let itemsNames: Array<string> = [];
+        for(let item of  await this.page.locator(shoppingCartPage.itemName).all()){
+            let name = await item.textContent();
+            itemsNames.push(name!);
+        }
+
+        const itemName = itemsNames[2];
+
+        await this.page.locator(shoppingCartPage.item, { hasText: itemName})
+        .locator(shoppingCartPage.removeButton).click();
+        await expect(this.page.locator(shoppingCartPage.item, { hasText: itemName })
+        , 'The item is still in the Shopping cart').toBeHidden();
     }
 }

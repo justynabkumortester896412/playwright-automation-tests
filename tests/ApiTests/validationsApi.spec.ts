@@ -11,16 +11,10 @@ test('TEST-7 Validation 2.1', async ({ restApi }) => {
 });
 
 test('TEST-8 Validation 2.2', async ({ restApi }) => {
-  await test.step('Get single user 13', async () => {
+  await test.step('Get single user 13, validate: that the user not found and that the response code is `404`', async () => {
     const idUser = '13';
     await restApi.getNotExistingUser(idUser);
   });
-  // await test.step('Validate that the user not found', async () => {
-
-  // });
-  // await test.step('Validate that the response code is `404`', async () => {
-
-  // });
 });
 
 test('TEST-9 Validation 2.3', async ({ restApi }) => {
@@ -43,11 +37,10 @@ test('TEST-11 Validation 2.5', async ({ restApi }) => {
   await test.step('Write a parameterized validation with the values `0` and `3`', async () => {
     const delayValue = chance.integer({ min: 0, max: 3 });
 
-    await restApi.getUserListWithDelayedResponse(delayValue.toString());
-    
+    await restApi.getUserListWithDelayedResponse(delayValue.toString()); 
   });
   await test.step('Validate that the response time is no longer than `1` second', async () => {
-//??
+//????????????????????????????????????????????????????????????????????????????????????????????????????????
   });
 });
 

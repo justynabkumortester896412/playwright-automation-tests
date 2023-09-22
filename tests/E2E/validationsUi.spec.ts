@@ -24,7 +24,7 @@ const orderCompleteInformation = 'Thank you for your order!';
     await testPage.shoppingCartActions.assertShoppingCartIsDisplayed();
   });
   await test.step('Find third item by name, then remove it from the cart', async () => {
-    await testPage.shoppingCartActions.removeItemFromTheCart(ProductName.SauceLabsBoltTShirt);
+    await testPage.shoppingCartActions.removeItemFromTheCart();
   });
   await test.step('Validate in the Checkout Overview that: It only contains the items that you want to purchase', async () => {
     await testPage.shoppingCartActions.navigateTo.checkoutOverviewPage();
@@ -39,7 +39,7 @@ const orderCompleteInformation = 'Thank you for your order!';
     await testPage.checkoutPageActions.clickOnTheFinishButton();
   });
   await test.step('Validate that the website confirms the order', async () => {
-    await testPage.completeOrderPageActions.assertWebsiteConfirmsOrder(orderCompleteInformation);
+    await testPage.completeOrderPageActions.assertItemsAreOrderedSuccessfully(orderCompleteInformation);
   });
 });
 
@@ -134,11 +134,11 @@ test('TEST-6 Validation 1.6', async ({ testPage }) => {
     await testPage.shoppingCartActions.assertShoppingCartIsDisplayed();
   });
   await test.step('Find third item by name, then remove it from the cart', async () => {
-    await testPage.shoppingCartActions.removeItemFromTheCart(ProductName.SauceLabsBoltTShirt);
+    await testPage.shoppingCartActions.removeItemFromTheCart();
   });
   await test.step('Validate in the Checkout Overview that: It only contains the items that you want to purchase', async () => {
     await testPage.shoppingCartActions.navigateTo.checkoutOverviewPage();
-    await testPage.checkoutPageActions.fillInPageOfYourInformation(firstName,lastName,postalCode);
+    await testPage.checkoutPageActions.fillInPageOfYourInformation(firstName,lastName,postalCode.toString());
     await testPage.checkoutPageActions.assertCheckoutListContainItems();
     await testPage.checkoutPageActions.assertCheckoutListNotContainItem(ProductName.SauceLabsBoltTShirt);
   });
@@ -149,7 +149,7 @@ test('TEST-6 Validation 1.6', async ({ testPage }) => {
     await testPage.checkoutPageActions.clickOnTheFinishButton();
   });
   await test.step('Validate that the website confirms the order', async () => {
-    await testPage.completeOrderPageActions.assertWebsiteConfirmsOrder(orderCompleteInformation);
+    await testPage.completeOrderPageActions.assertItemsAreOrderedSuccessfully(orderCompleteInformation);
   });
 });
 

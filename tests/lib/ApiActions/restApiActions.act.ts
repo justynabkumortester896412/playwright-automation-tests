@@ -54,7 +54,7 @@ export default class ReqresApi {
             today = year + "-" + month + "-" + day;
         }
 
-        expect(createData).toEqual(expect.stringContaining(`${today}`));
+        expect(createData, `the create data: "${createData}" is different than expected`).toEqual(expect.stringContaining(`${today}`));
     }
 
     async createUsers(expectedNumberOfUsers: number): Promise<void> {
@@ -95,16 +95,14 @@ export default class ReqresApi {
 
           const body = JSON.parse((await res.body()).toString());
 
-          expect(name).toEqual(body.name);
-          expect(job).toEqual(body.job);
+          expect(name, `The user name in the body response is different than expected: "${name}"`).toEqual(body.name);
+          expect(job, `The user job in the body response is different than expected: "${job}"`).toEqual(body.job);
     }
 
     async getUserListWithDelayedResponse(delay: string): Promise<Array<any>> {
         expect(Number(delay), `Invalid parameter: ${delay}. Expected value in range 0-3`).toBeGreaterThan(-1);
         expect(Number(delay), `Invalid parameter: ${delay}. Expected value in range 0-3`).toBeLessThan(4);
 
-        const date = new Date();
-        // const secondsOfCreation = date.getSeconds();
         const res = await this.request.get(`${URL}/users?delay=${delay}`);
         
         await expect.poll(async () => { res
@@ -115,11 +113,6 @@ export default class ReqresApi {
           }).toBe(200);
 
         const body = JSON.parse((await res.body()).toString());
-        // const createData: string = body.createdAt;
-        // const splitData: string = createData.split('.')[0];
-        // const createTime: string = splitData.split(':')[2];
-
-        // expect(Number(createTime)+1, 'The response time is longer than `1` second').toBeLessThanOrEqual(secondsOfCreation);
         return body;
     }
 
@@ -139,6 +132,6 @@ export default class ReqresApi {
         }).toBe(400);
 
         const body = JSON.parse((await res.body()).toString());
-        expect(expectedErrorMessage).toEqual(body.error);  
+        expect(expectedErrorMessage, `The error message is different than expected: "${expectedErrorMessage}"`).toEqual(body.error);  
     }
 }

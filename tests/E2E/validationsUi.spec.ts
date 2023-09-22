@@ -3,10 +3,10 @@ import test from '../testPage';
 
 const chance = require('chance').Chance();
 
-test('TEST-25 Validation 1.1', async ({ testPage }) => {
-const firstName = chance.name().split(" ")[0];
-const lastName = chance.name().split(" ")[1];
-const postalCode = chance.natural({ min: 1, max: 88888 });
+test('TEST-1 Validation 1.1', async ({ testPage }) => {
+  const firstName = chance.name().split(" ")[0];
+  const lastName = chance.name().split(" ")[1];
+  const postalCode = chance.natural({ min: 1, max: 88888 });
 const orderCompleteInformation = 'Thank you for your order!';
 
   await test.step('Log in as a `standard user`', async () => {
@@ -43,7 +43,7 @@ const orderCompleteInformation = 'Thank you for your order!';
   });
 });
 
-test('Validation 1.2', async ({ testPage }) => {
+test('TEST-2 Validation 1.2', async ({ testPage }) => {
   await test.step('Log in as a `problem_user`', async () => {
     await testPage.loginPageActions.navigateTo.loginPage();
     await testPage.loginPageActions.assertLoginPageIsDisplayed();
@@ -66,7 +66,7 @@ test('Validation 1.2', async ({ testPage }) => {
   });
 });
 
-test('Validation 1.3', async ({ testPage }) => {
+test('TEST-3 Validation 1.3', async ({ testPage }) => {
   await test.step('Log in as a `standard user`', async () => {
     await testPage.loginPageActions.navigateTo.loginPage();
     await testPage.loginPageActions.assertLoginPageIsDisplayed();
@@ -83,7 +83,7 @@ test('Validation 1.3', async ({ testPage }) => {
   });
 });
 
-test('TEST-51 Validation 1.4', async ({ testPage }) => {
+test('TEST-4 Validation 1.4', async ({ testPage }) => {
   
   await test.step('Log in as a `standard user`', async () => {
     await testPage.loginPageActions.navigateTo.loginPage();
@@ -101,7 +101,7 @@ test('TEST-51 Validation 1.4', async ({ testPage }) => {
   });
 });
 
-test('Validation 1.5', async ({ testPage }) => {
+test('TEST-5 Validation 1.5', async ({ testPage }) => {
   await test.step('Log in as a `locked_out_user` - the validation should fail', async () => {
     await testPage.loginPageActions.navigateTo.loginPage();
     await testPage.loginPageActions.assertLoginPageIsDisplayed();
@@ -113,7 +113,7 @@ test('Validation 1.5', async ({ testPage }) => {
   });
 });
 
-test('Validation 1.6', async ({ testPage }) => {
+test('TEST-6 Validation 1.6', async ({ testPage }) => {
   const firstName = chance.name().split(" ")[0];
   const lastName = chance.name().split(" ")[1];
   const postalCode = chance.natural({ min: 1, max: 88888 });

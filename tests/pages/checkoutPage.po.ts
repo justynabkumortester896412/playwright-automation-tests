@@ -5,7 +5,9 @@ const checkoutPage = {
     postalCode: '[data-test="postalCode"]',
     continueButton: '[data-test="continue"]',
     itemName: 'div[class="inventory_item_name"]',
-    total: 'div[class$="summary_info_label summary_total_label"]',
+    price: 'div[class="inventory_item_price"]',
+    tax: 'div[class="summary_tax_label"]',
+    total: 'div[class*="summary_total_label"]',
     finishButton: 'button[id="finish"]',
 };
 export default checkoutPage;

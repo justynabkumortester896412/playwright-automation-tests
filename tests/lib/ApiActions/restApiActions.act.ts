@@ -46,7 +46,7 @@ export default class ReqresApi {
           }).toBe(201);
 
         const body = JSON.parse((await res.body()).toString());
-        const createData = body.createdAt;
+        let createData = body.createdAt;
 
         if (month < 10){
             today = year + "-0" + month + "-" + day;
@@ -54,7 +54,7 @@ export default class ReqresApi {
             today = year + "-" + month + "-" + day;
         }
 
-        expect(createData).toEqual(expect.stringContaining(`${today}`));
+        expect(createData, `the create data: "${createData}" is different than expected`).toEqual(expect.stringContaining(`${today}`));
     }
 
     async createUsers(expectedNumberOfUsers: number): Promise<void> {
@@ -95,39 +95,43 @@ export default class ReqresApi {
 
           const body = JSON.parse((await res.body()).toString());
 
-          expect(name).toEqual(body.name);
-          expect(job).toEqual(body.job);
+          expect(name, `The user name in the body response is different than expected: "${name}"`).toEqual(body.name);
+          expect(job, `The user job in the body response is different than expected: "${job}"`).toEqual(body.job);
     }
 
     async getUserListWithDelayedResponse(delay: string): Promise<Array<any>> {
-        // await expect(Number(delay), `Invalid parameter: ${delay}. Expected value in range 0-3`).toBeGreaterThan(0);
-        // await expect(Number(delay), `Invalid parameter: ${delay}. Expected value in range 0-3`).toBeLessThan(3);
+        expect(Number(delay), `Invalid parameter: ${delay}. Expected value in range 0-3`).toBeGreaterThan(-1);
+        expect(Number(delay), `Invalid parameter: ${delay}. Expected value in range 0-3`).toBeLessThan(4);
 
         const res = await this.request.get(`${URL}/users?delay=${delay}`);
+        
+        await expect.poll(async () => { res
+            return res.status();
+          }, {
+            message: 'X Response was not 200', 
+            timeout: 10000,
+          }).toBe(200);
 
-        await expect(res, 'X Response was not 200').toBeOK();
         const body = JSON.parse((await res.body()).toString());
         return body;
     }
 
-    async loginUserWithoutPassword(mail: string, expectedErrorMessage: string): Promise<void> {
-        const res = await this.request.post(`${URL}/users/2`, {
+    async loginUserWithoutPassword(email: string, expectedErrorMessage: string): Promise<void> {
+        const res = await this.request.post(`${URL}/login`, {
             data: {
-                mail,
+                email,
                 failOnStatusCode: true
             },
         })
-        // .catch(e => e).then((response) => response);
-        const body = JSON.parse((await res.body()).toString());
 
         await expect.poll(async () => { res
             return res.status();
         }, {
-            message: 'X User cannot be logged in', 
+            message: 'X User can be logged in', 
             timeout: 10000,
-        }).toBe(200);
+        }).toBe(400);
 
-        // expect(res.message).toEqual(expect.stringContaining('404'));  
-        expect(expectedErrorMessage).toEqual(body.error);  
+        const body = JSON.parse((await res.body()).toString());
+        expect(expectedErrorMessage, `The error message is different than expected: "${expectedErrorMessage}"`).toEqual(body.error);  
     }
 }

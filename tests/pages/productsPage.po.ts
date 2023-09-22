@@ -8,12 +8,9 @@ const productsPage = {
     shoppingCart: 'a[class="shopping_cart_link"]',
     pageContent: 'div[class="inventory_list"]', 
     item:'div[class="inventory_item"]',
-    firstItem: 'div[class="inventory_item"] >> nth=0',
-    sixthItem: 'div[class="inventory_item"] >> nth=5',
+    itemName: 'div[class="inventory_item_name"]',
     linkOfItem: 'a',
     price: 'div[class = "inventory_item_price"]',
-    firstPrice: 'div[class="inventory_item_price"] >> nth=0',
-    sixthPrice: 'div[class="inventory_item_price"] >> nth=5',
     addToCartButton: 'button[id^="add-to-cart"]',
     removeButton: 'button[id^ = "remove"]',
 };
